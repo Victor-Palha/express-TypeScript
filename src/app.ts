@@ -26,9 +26,25 @@ app.all('/api/product/check', (req, res)=>{
     }
 })
 
-//Interfaces
+//Interfaces do express
 app.get('/api/interfaces', (req:Request, res:Response)=>{
     return res.send("Utilizando interfaces!")
+})
+
+//enviando Json
+app.get("/api/json", (req:Request, res:Response)=>{
+    return res.json({
+        name: "Shirt",
+        price: 30.00,
+        color: "Black",
+        sizes: ["p", "M", "G"]
+    })
+})
+
+// Router Parameters
+app.get('/api/product/:id', (req:Request, res:Response)=>{
+    console.log(req.params)
+    return res.send(`Product ${req.params.id}`)
 })
 
 app.listen(3000, ()=>{

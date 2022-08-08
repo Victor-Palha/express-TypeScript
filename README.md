@@ -95,16 +95,37 @@ verbo;
     ```
 
 **JSON como respostas**
-* Na maioria das vezes enviamos JSON para endpoints de API;
+* Na maioria das vezes enviamos **JSON para endpoints de API**;
 * Para fazer isso com Express é facil!
-* Basta enviar o JSON no método json de response;
+* Basta enviar o JSON no *método `json`* de response;
+    * ```ts
+        //enviando Json
+        app.get("/api/json", (req:Request, res:Response)=>{
+            return res.json({
+                name: "Shirt",
+                price: 30.00,
+                color: "Black",
+                sizes: ["p", "M", "G"]
+            })
+        })
+    ```
 
 **Router parameters**
 * Podemos pegar parâmetros de rotas com Express;
-* Vamos utilizar req.params;
-* A rota a ser criada precisa ser dinâmica;
+* Vamos utilizar `req.params`;
+    * O `req.params` como o nome já diz, é um parametro enviado na requisição da nossa API e pode ser pego para fazer um request.
+* A rota a ser criada precisa ser **dinâmica**;
 * Ou seja, os parâmetros que estamos querendo receber precisam estar no
-padrão: :id;
+padrão: **:id**;
+```ts
+//Router Parameters
+app.get('/api/product/:id', (req:Request, res:Response)=>{
+    console.log(req.params)
+    return res.send(`Product ${req.params.id}`)
+})
+```
+* Podemos acessar esse rota pela seguinte URL: `http://localhost:3000/api/product/10`. O 10 no final é apenas um exemplo de parâmetro, podendo receber qualquer coisa!
+
 **Rotas mais complexas**
 * Podemos ter rotas com mais de um parâmetro;
 * Todos os dados continuam em req.params;
