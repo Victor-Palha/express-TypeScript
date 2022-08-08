@@ -61,10 +61,24 @@ de de dev (como os tipos) e outras não (como o Express);
 * Iremos realizar os testes com a extensão **Thunder Client** do VsCode, porém você pode utiizar qualquer meio que preferir!;
 
 **Rota para qualquer verbo**
-* Utilizando o método all, podemos criar uma rota que aceita qualquer
+* Utilizando o método **all**, podemos criar uma rota que aceita qualquer
 verbo;
-* É interessante para quando um endpoint precisa realizar várias funções;
-* Podemos criar um tratamento para entregar a resposta;
+    * Quando utilizamos o método `req.method`, recebemos o *verbo HTTP*
+* É interessante para quando um endpoint **precisa realizar várias funções**;
+* Podemos criar um tratamento para entregar a resposta, dependendo do método HTTP utilizado;
+    * ```ts
+        //Rota all
+        app.all('/api/product/check', (req, res)=>{
+            // tratamento
+            if(req.method === "POST"){
+                return res.send("Registro inserido!")
+            } else if(req.method === "GET"){
+                return res.send("Algum registro do banco de dados!")
+            } else{
+                return res.send("Não podemos realizar esta operação!")
+            }
+        })
+    ```
 
 **Interfaces do Express**
 * Para alinhar nossa aplicação ao TypeScript vamos adicionar novos tipos;
