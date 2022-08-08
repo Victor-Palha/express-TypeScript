@@ -81,9 +81,18 @@ verbo;
     ```
 
 **Interfaces do Express**
-* Para alinhar nossa aplicação ao TypeScript vamos adicionar novos tipos;
-* As request podem utilizar o tipo Request;
-* E as respostas o Response;
+* Para alinhar nossa aplicação ao **TypeScript** vamos adicionar novos tipos;
+    * Importaremos os recursos do próprio Express.
+        * `import express, { Request, Response} from "express";`
+    * Então criaremos uma nova rota;
+* As request podem utilizar o tipo *Request* e as respostas utilizam o tipo *Response*;
+    * Isso ajuda na hora que formos escrever o código, poís o TypeScript nós mostra o que estamos fazendo de errado!
+* ```ts
+    //Interfaces
+    app.get('/api/interfaces', (req:Request, res:Response)=>{
+        return res.send("Utilizando interfaces!")
+    })
+    ```
 
 **JSON como respostas**
 * Na maioria das vezes enviamos JSON para endpoints de API;
