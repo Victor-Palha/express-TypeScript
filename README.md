@@ -18,11 +18,27 @@ de de dev (como os tipos) e outras não (como o Express);
 * E por fim criamos um *script* e iniciamos a aplicação!
 
 **Utilizando o Express**
-* Para utilizar o express vamos importar o pacote;
-* E criar ativá-lo em uma nova variável, geralmente chamada de app;
-* Podemos criar uma rota que retorna uma mensagem;
-* Definir uma porta para a aplicação;
+* Para utilizar o express vamos *importar o pacote*;
+    * `import express from 'express'`
+* E criar ativá-lo em uma nova variável, geralmente chamada de **app**;
+    * `const app = express()`
+* Podemos *criar uma rota* que retorna uma mensagem;
+    * ```ts
+        app.get("/", (request, response)=>{
+            return response.send("Hello From Express!")
+        })
+        ```
+* Definir uma *porta* para a aplicação;
+    * ```ts
+        app.listen(3000, ()=>{
+            console.log("Express Aplication running!")
+        })
+        ```
 * E verificar o resultado no navegador;
+    * `http://localhost:3000`
+* Alguns detalhes que você deve considerar se você está lendo essa documentação:
+    * Esse projeto é levando em conta que você tem algum conhecimento prévio sobre Node.js e Express.
+    * Esse repositório é para você entender como utilizado o **TypeScript** utilizando o Express.
 
 **Roteamento**
 * Podemos utilizar qualquer verbo HTTP nas rotas do Express;
