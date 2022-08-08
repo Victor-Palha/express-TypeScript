@@ -41,11 +41,24 @@ de de dev (como os tipos) e outras não (como o Express);
     * Esse repositório é para você entender como utilizado o **TypeScript** utilizando o Express.
 
 **Roteamento**
-* Podemos utilizar qualquer verbo HTTP nas rotas do Express;
-* Vamos criar uma que funciona a base de POST;
-* Para isso precisamos trafegar dados em JSON, podemos fazer isso
-ativando um middleware;
-* Iremos realizar os testes com o Postman;
+* Podemos utilizar *qualquer verbo HTTP nas rotas* do Express;
+    * C: Create - POST
+    * R: Read - GET
+    * U: Update - PUT/PATCH
+    * D: Delete - DELETE
+* Vamos criar uma que funciona a base de **POST**. Para isso precisamos trafegar dados em *JSON*, podemos fazer isso ativando um *middleware*;
+    * ```ts
+        //Middleware
+        app.use(express.json())
+
+        //Rota de Post
+        app.post('/api/product',(req,res)=>{
+            console.log(req.body)
+            return res.send("Produto adicionado!")
+        })
+        ```
+    * Lembrando que quando vocês forem testar, ele é um metódo **POST** e recebe um *JSON* vindo da requisição!
+* Iremos realizar os testes com a extensão **Thunder Client** do VsCode, porém você pode utiizar qualquer meio que preferir!;
 
 **Rota para qualquer verbo**
 * Utilizando o método all, podemos criar uma rota que aceita qualquer
