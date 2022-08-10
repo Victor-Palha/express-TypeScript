@@ -158,25 +158,84 @@ app.get('/api/product/:id', (req:Request, res:Response)=>{
 maneira;
 
 **Middleware**
-* Middleware é um recurso para executar uma função entre a execução de
+* *Middleware* é um recurso para executar uma função entre a execução de
 uma rota, por exemplo;
-* O nosso app.use de json é um middleware;
-* Podemos utilizar middleware para validações, por exemplo;
+* O nosso `app.use(express.json())` é um middleware;
+    * Porém ele é um middleware em nível de aplicação, ou seja, todas as rotas passam por ele antes de realizar suas funções. Mas existem middlewares que vão ser usadas em apenas determinadas rotas!
+* Podemos utilizar middleware para *validações*, por exemplo;
+* Antes de começarmos com o middleware, temos que chamar o *tipo dele para o TypeScript*, isso porque as funções de middleware tem um novo parametro, que é o `next`. Então vamos chamar o tipo dele:
+    * `import express, { Request, Response, NextFunction} from "express";`
+* Agora, um middleware pode lembrar uma função *Router Handler*, porém com um parametro adicional, que é o `Next`;
+* Agora vamos criar nosso middleware e chamar para dentro de uma rota:
+    * ```ts
+        //Middleware
+        function checkUser(req: Request, res: Response, next: NextFunction){
+            if(req.params.id === '1'){
+                console.log("Pode Seguir!")
+                next()
+            }else{
+                console.log("Acesso restrito")
+            }
+        }
+        //Rota utilizando o Middleware
+        app.get("/api/user/:id/acess", checkUser ,(req:Request, res:Response)=>{
+            return res.json({msg: "Bem-vindo!"})
+        })
+    ```
+* Dentro da rota, como **segundo parametro passamos a função de middleware**, e ela vai ser chamada antes da execução na próxima função!
 
 **Middleware para todas as rotas**
 * Para criar um middleware que é executado em todas as rotas vamos
-utilizar o método use;
-* Criamos uma função e atrelamos ao método;
-* Desta maneira todas as rotas terão ação do nosso middleware;
+utilizar o método `use`;
+* *Criamos uma função* e atrelamos ao método;
+* Desta maneira *todas as rotas* terão ação do nosso middleware;
+```ts
+//Criando middleware
+function showPath(req:Request, res:Response, next:NextFunction){
+    console.log(req.path)
+    next()
+}
+//Utilizando método use para ele ser usado em TODAS as rotas
+app.use(showPath)
+```
+* Lembrando que todas as funções de middleware, devem utilizar o `next` no final, se não, ele não vai destravar para o usuário ir para as rotas!
 
 **Request e Response generics**
-* Podemos estabelecer os argumentos que vem pelo request e vão pela
-response;
-* Para isso vamos utilizar os Generics de Response e Request;
-* Que são as Interfaces disponibilizadas pelo Express;
+* Podemos estabelecer os *argumentos que vem pelo request e vão pela response*;
+* Para isso vamos utilizar os *Generics* de Response e Request;
+* Que são as *Interfaces* disponibilizadas pelo Express;
+```ts
+app.get("/api/user/:id/details/:name", (
+    req:Request<{id:string, name:string}>, 
+    res:Response<{status: boolean}>
+    )=>{
+        console.log(`ID ${req.params.id}`)
+        console.log(`Name: ${req.params.name}`)
+
+        return res.json({status: true})
+    }
+)
+```
+* Vamos por partes agora!
+    * Primeiramente criamos uma rota que recebe 2 parametros, sendo eles o `id` e o `name`
+    * Agora vamos tipar o `Req` para ele receber um objeto, que vai ser o id e o name, ambos sendo string!
+    * Depois passamos um objeto para o Response para ele receber um objeto que tem apenas um atributo que receber um *boolean*
 
 **Tratando erros**
-* Para tratar possíveis erros utilizamos blocos try catch;
-* Desta maneira podemos detectar algum problema e retornar uma
+* Para tratar possíveis erros utilizamos *blocos try catch*;
+* Desta maneira *podemos detectar algum problema* e retornar uma
 resposta para o usuário;
-* Ou até mesmo criar um log no sistema;
+* Ou até mesmo *criar um log* no sistema;
+```ts
+app.get("/api/error", (req:Request, res:Response)=>{
+try {
+    //Nossa lógica
+    throw new Error("Algo deu errado!")
+    
+} catch (err: any) {
+    res.status(500).json({Error: err.message})
+}
+})
+```
+* No exemplo acima, criamos um erro propósital dentro do bloco `try`, assim forçamos ele a entrar dentro do `catch`.
+* Depois disso tratamos o erro tipando ele como `any` e colocando status code dele para 500 (erro interno do servidor) e depois passamos uma mensagem para sinalizar que algo aconteceu!
