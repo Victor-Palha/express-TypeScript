@@ -127,10 +127,18 @@ app.get('/api/product/:id', (req:Request, res:Response)=>{
 * Podemos acessar esse rota pela seguinte URL: `http://localhost:3000/api/product/10`. O 10 no final é apenas um exemplo de parâmetro, podendo receber qualquer coisa!
 
 **Rotas mais complexas**
-* Podemos ter rotas com mais de um parâmetro;
-* Todos os dados continuam em req.params;
-* O padrão é: /algo/:param1/outracoisa/:param2
-* Teremos então: param1 e param2 em req;
+* Podemos ter rotas com *mais de um parâmetro*;
+* Todos os dados continuam em `req.params`;
+* O padrão é: /algo/:*param1*/outracoisa/:*param2*
+    * ```ts
+        app.get("/api/product/:id/review/:reviewId", (req:Request, res:Response)=>{
+            console.log(req.params)
+            const productId = req.params.id
+            const reviewId = req.params.reviewId
+            return res.send(`Acessando a reviw ${reviewId} do produto ${productId}`)
+        })
+    ```
+* Teremos então: id como o primeiro parametro e reviewId como segundo parametro para nosso request;
 
 **Router handler**
 * Router handler é um recurso muito interessante para o Express;
