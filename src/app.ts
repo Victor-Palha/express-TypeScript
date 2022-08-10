@@ -56,6 +56,17 @@ app.get("/api/product/:id/review/:reviewId", (req:Request, res:Response)=>{
     return res.send(`Acessando a reviw ${reviewId} do produto ${productId}`)
 })
 
+// Router Handle
+function getUser(req:Request, res:Response){
+    const id = req.params.id
+    console.log(`Resgatando o usuário com id: ${id}`)
+    return res.send("O usuário com o id "+ id + " foi encontrado!")
+}
+
+app.get("/api/user/:id", getUser)
+
+
+//Servidor
 app.listen(3000, ()=>{
     console.log("Express Aplication running!")
 })

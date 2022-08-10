@@ -141,9 +141,19 @@ app.get('/api/product/:id', (req:Request, res:Response)=>{
 * Teremos então: id como o primeiro parametro e reviewId como segundo parametro para nosso request;
 
 **Router handler**
-* Router handler é um recurso muito interessante para o Express;
-* Basicamente retiramos a função anônima de uma rota e externalizamos
-em uma função;
+* *Router handler* é um recurso muito interessante para o Express;
+* Basicamente retiramos a função anônima de uma rota e *externalizamos em uma função*;
+    * Isso quer dizer que podemos fazer a função antes de criarmos a rota, então chamaremos a função dentro da rota!
+    * Exemplo: 
+        * ```ts
+            function getUser(req:Request, res:Response){
+                const id = req.params.id
+                console.log(`Resgatando o usuário com id: ${id}`)
+                return res.send("O usuário com o id "+ id + " foi encontrado!")
+            }
+
+            app.get("/api/user/:id", getUser)
+        ```
 * Podemos reaproveitar essa função, ou estrutura nossa aplicação desta
 maneira;
 
