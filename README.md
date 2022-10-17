@@ -90,8 +90,7 @@ verbo;
     //Interfaces
     app.get('/api/interfaces', (req:Request, res:Response)=>{
         return res.send("Utilizando interfaces!")
-    })
-    ```
+    })```
 
 **JSON como respostas**
 * Na maioria das vezes enviamos **JSON para endpoints de API**;
@@ -106,8 +105,7 @@ verbo;
                 color: "Black",
                 sizes: ["p", "M", "G"]
             })
-        })
-    ```
+        })```
 
 **Router parameters**
 * Podemos pegar parâmetros de rotas com Express;
@@ -116,13 +114,13 @@ verbo;
 * A rota a ser criada precisa ser **dinâmica**;
 * Ou seja, os parâmetros que estamos querendo receber precisam estar no
 padrão: **:id**;
-```ts
+* ```ts
 //Router Parameters
 app.get('/api/product/:id', (req:Request, res:Response)=>{
     console.log(req.params)
     return res.send(`Product ${req.params.id}`)
-})
-```
+})```
+
 * Podemos acessar esse rota pela seguinte URL: `http://localhost:3000/api/product/10`. O 10 no final é apenas um exemplo de parâmetro, podendo receber qualquer coisa!
 
 **Rotas mais complexas**
@@ -135,8 +133,7 @@ app.get('/api/product/:id', (req:Request, res:Response)=>{
             const productId = req.params.id
             const reviewId = req.params.reviewId
             return res.send(`Acessando a reviw ${reviewId} do produto ${productId}`)
-        })
-    ```
+        })```
 * Teremos então: id como o primeiro parametro e reviewId como segundo parametro para nosso request;
 
 **Router handler**
@@ -151,8 +148,8 @@ app.get('/api/product/:id', (req:Request, res:Response)=>{
                 return res.send("O usuário com o id "+ id + " foi encontrado!")
             }
 
-            app.get("/api/user/:id", getUser)
-        ```
+            app.get("/api/user/:id", getUser)```
+            
 * Podemos reaproveitar essa função, ou estrutura nossa aplicação desta
 maneira;
 
@@ -179,8 +176,8 @@ uma rota, por exemplo;
         //Rota utilizando o Middleware
         app.get("/api/user/:id/acess", checkUser ,(req:Request, res:Response)=>{
             return res.json({msg: "Bem-vindo!"})
-        })
-    ```
+        })```
+        
 * Dentro da rota, como **segundo parametro passamos a função de middleware**, e ela vai ser chamada antes da execução na próxima função!
 
 **Middleware para todas as rotas**
@@ -188,22 +185,22 @@ uma rota, por exemplo;
 utilizar o método `use`;
 * *Criamos uma função* e atrelamos ao método;
 * Desta maneira *todas as rotas* terão ação do nosso middleware;
-```ts
+* ```ts
 //Criando middleware
 function showPath(req:Request, res:Response, next:NextFunction){
     console.log(req.path)
     next()
 }
 //Utilizando método use para ele ser usado em TODAS as rotas
-app.use(showPath)
-```
+app.use(showPath)```
+
 * Lembrando que todas as funções de middleware, devem utilizar o `next` no final, se não, ele não vai destravar para o usuário ir para as rotas!
 
 **Request e Response generics**
 * Podemos estabelecer os *argumentos que vem pelo request e vão pela response*;
 * Para isso vamos utilizar os *Generics* de Response e Request;
 * Que são as *Interfaces* disponibilizadas pelo Express;
-```ts
+* ```ts
 app.get("/api/user/:id/details/:name", (
     req:Request<{id:string, name:string}>, 
     res:Response<{status: boolean}>
@@ -213,8 +210,8 @@ app.get("/api/user/:id/details/:name", (
 
         return res.json({status: true})
     }
-)
-```
+)```
+
 * Vamos por partes agora!
     * Primeiramente criamos uma rota que recebe 2 parametros, sendo eles o `id` e o `name`
     * Agora vamos tipar o `Req` para ele receber um objeto, que vai ser o id e o name, ambos sendo string!
@@ -225,7 +222,7 @@ app.get("/api/user/:id/details/:name", (
 * Desta maneira *podemos detectar algum problema* e retornar uma
 resposta para o usuário;
 * Ou até mesmo *criar um log* no sistema;
-```ts
+* ```ts
 app.get("/api/error", (req:Request, res:Response)=>{
 try {
     //Nossa lógica
@@ -234,7 +231,7 @@ try {
 } catch (err: any) {
     res.status(500).json({Error: err.message})
 }
-})
-```
+})```
+
 * No exemplo acima, criamos um erro propósital dentro do bloco `try`, assim forçamos ele a entrar dentro do `catch`.
 * Depois disso tratamos o erro tipando ele como `any` e colocando status code dele para 500 (erro interno do servidor) e depois passamos uma mensagem para sinalizar que algo aconteceu!
