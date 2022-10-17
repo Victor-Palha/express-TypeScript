@@ -57,6 +57,7 @@ de de dev (como os tipos) e outras não (como o Express);
             return res.send("Produto adicionado!")
         })
         ```
+        
     * Lembrando que quando vocês forem testar, ele é um metódo **POST** e recebe um *JSON* vindo da requisição!
 * Iremos realizar os testes com a extensão **Thunder Client** do VsCode, porém você pode utiizar qualquer meio que preferir!;
 
