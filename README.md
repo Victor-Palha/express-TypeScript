@@ -78,9 +78,7 @@ verbo;
             } else{
                 return res.send("Não podemos realizar esta operação!")
             }
-        })
-    ```
-
+        })```
 **Interfaces do Express**
 * Para alinhar nossa aplicação ao **TypeScript** vamos adicionar novos tipos;
     * Importaremos os recursos do próprio Express.
